@@ -1,8 +1,11 @@
-import React, { useState, Suspense } from "react";
+import React, { useState } from "react";
+import loadable from "@loadable/component";
 import Loading from "./Loading";
 import ErrorBoundary from "./ErrorBoundary";
 
-const EliteImg = React.lazy(() => import("./EliteImg"));
+const EliteImg = loadable(() => import("./EliteImg"), {
+  fallback: <Loading />,
+});
 
 const Home = () => {
   const [showImg, setShowImg] = useState(false);
@@ -13,9 +16,7 @@ const Home = () => {
       </button>
       {showImg && (
         <ErrorBoundary>
-          <Suspense fallback={<Loading />}>
-            <EliteImg></EliteImg>
-          </Suspense>
+          <EliteImg></EliteImg>
         </ErrorBoundary>
       )}
     </div>
